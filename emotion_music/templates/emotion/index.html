@@ -5,6 +5,16 @@
   <title>Music-sifi</title>
 </head>
 <body>
-  <h1>Music-sifi scaffold is running</h1>
+  <h1>Music-sifi — Emotion-aware music</h1>
+
+  <button id="voiceBtn">Voice Command</button>
+  <div>Status: <span id="status">Idle</span></div>
+  <div>Transcript: <span id="transcript">-</span></div>
+  <div>Emotion: <span id="emotion">-</span> (<span id="confidence">-</span>) source=<span id="mode">-</span></div>
+
+  <audio id="player" controls></audio>
+  <ul id="playlist"></ul>
+
+  <script type="module" src="/static/emotion/app.js"></script>
 </body>
 </html>
