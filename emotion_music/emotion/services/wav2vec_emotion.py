@@ -63,7 +63,6 @@ def predict_emotion_from_wav(wav_path: str) -> tuple[str, float, str]:
     """
     pipe = get_pipeline()
 
-    #load the wav ourselves
     import soundfile as sf
 
     audio, sr = sf.read(wav_path)  # audio: (n,) or (n, channels)
