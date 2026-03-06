@@ -8,7 +8,7 @@ class Track(models.Model):
         ("disgust", "disgust"),
         ("angry", "angry"),
         ("surprised", "surprised"),
-        ("fearful", "fearful"),
+        ("fear", "fear"),
         ("calm", "calm"),
 
     ]

@@ -2,22 +2,37 @@ import os
 import tempfile
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 
 from .models import Track
 from .services.intent import detect_emotion_command
 from .services.wav2vec_emotion import predict_emotion_from_wav, model_labels
+from .forms import SignUpForm
 
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("/")
+    else:
+        form = SignUpForm()
 
+    return render(request, "registration/signup.html", {"form": form})
+
+@login_required
 def index(request):
     return render(request, "emotion/index.html")
 
-
+@login_required
 def api_model_labels(request):
     return JsonResponse({"labels": model_labels()})
 
-
+@login_required
 @csrf_exempt
 def api_analyze(request):
     if request.method != "POST":
