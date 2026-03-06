@@ -2,26 +2,17 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Keep your model id since you confirmed it has the full label set you need
-WAV2VEC_MODEL_ID = "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+# NEW: use local fine-tuned model stored in emotion_music/models/...
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parents[2]   # -> emotion_music/
+LOCAL_MODEL_DIR = BASE_DIR / "ravdess_wav2vec2_finetuned"   # Adjust if your model is in a different subdirectory
+WAV2VEC_MODEL_ID = str(LOCAL_MODEL_DIR)
 
 _PIPE = None
 _ID2LABEL = None
 
-# Map model labels -> your 8 target emotions:
-# happy, sad, neutral, disgust, angry, surprised, fear, calm
-LABEL_MAP = {
-    "angry": "angry",
-    "happy": "happy",
-    "sad": "sad",
-    "neutral": "neutral",
-    "disgust": "disgust",
-    "surprised": "surprised",
-    "fearful": "fear",
-    "calm":"calm",
-
-   
-}
+# With a fine-tuned model, labels should already match your target set.
+TARGET = {"angry", "calm", "disgust", "fear", "happy", "neutral", "sad", "surprised"}
 
 def _norm_label(lbl: str) -> str:
     return (lbl or "").strip().lower().replace("_", " ")
@@ -33,7 +24,7 @@ def get_pipeline():
 
     from transformers import pipeline, AutoModelForAudioClassification, AutoFeatureExtractor
 
-    logger.info("Loading wav2vec2 emotion model: %s", WAV2VEC_MODEL_ID)
+    logger.info("Loading fine-tuned wav2vec2 emotion model from: %s", WAV2VEC_MODEL_ID)
     model = AutoModelForAudioClassification.from_pretrained(WAV2VEC_MODEL_ID)
     fe = AutoFeatureExtractor.from_pretrained(WAV2VEC_MODEL_ID)
 
@@ -59,21 +50,21 @@ def model_labels():
 
 def predict_emotion_from_wav(wav_path: str) -> tuple[str, float, str]:
     """
-    Returns: (mapped_emotion, confidence, raw_label)
+    Returns: (predicted_emotion, confidence, raw_label)
     """
     pipe = get_pipeline()
 
     import soundfile as sf
 
-    audio, sr = sf.read(wav_path)  # audio: (n,) or (n, channels)
+    audio, sr = sf.read(wav_path)
     if hasattr(audio, "ndim") and audio.ndim > 1:
-        audio = audio.mean(axis=1)  # mono
+        audio = audio.mean(axis=1)
 
-    outputs = pipe({"array": audio, "sampling_rate": sr})  # <-- no ffmpeg
+    outputs = pipe({"array": audio, "sampling_rate": sr})
     best = max(outputs, key=lambda x: x["score"])
 
     raw_label = _norm_label(best["label"])
     score = float(best["score"])
 
-    mapped = LABEL_MAP.get(raw_label, "neutral")
-    return mapped, score, raw_label
+    pred = raw_label if raw_label in TARGET else "neutral"
+    return pred, score, raw_label
