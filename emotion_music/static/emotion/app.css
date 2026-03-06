@@ -1,0 +1,202 @@
+:root{
+  --bg: #0a0a0f;
+  --panel: #12121a;
+  --border: rgba(255,255,255,0.10);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.62);
+
+  --accent: #7c3aed;  /* purple */
+  --accent-2: #ec4899;/* pink */
+}
+
+body{
+  background: radial-gradient(900px 600px at 15% 0%, rgba(124,58,237,0.22), transparent 55%),
+              radial-gradient(900px 600px at 100% 10%, rgba(236,72,153,0.16), transparent 55%),
+              var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.navbar{
+  background: rgba(0,0,0,0.75) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.card{
+  background: rgba(18,18,26,0.82) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+}
+
+.list-group-item{
+  background: transparent !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.text-secondary{ color: var(--muted) !important; }
+
+.btn-primary{
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+  border: none !important;
+}
+
+.btn-outline-light{
+  border-color: rgba(255,255,255,0.22) !important;
+}
+
+.btn-outline-light:hover{
+  background: rgba(255,255,255,0.08) !important;
+}
+
+.badge.text-bg-info{
+  background: rgba(124,58,237,0.18) !important;
+  color: #e9ddff !important;
+  border: 1px solid rgba(124,58,237,0.35) !important;
+}
+
+/* Make Django auth forms look good (no Python changes needed) */
+input[type="text"], input[type="password"], input[type="email"]{
+  width: 100%;
+  padding: .6rem .75rem;
+  border-radius: .75rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.92);
+  outline: none;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus{
+  border-color: rgba(124,58,237,0.65);
+  box-shadow: 0 0 0 .2rem rgba(124,58,237,0.14);
+}
+:root{
+  --text-strong: rgba(255,255,255,0.96);
+  --text-normal: rgba(255,255,255,0.90);
+  --text-muted: rgba(255,255,255,0.72);
+  --placeholder: rgba(255,255,255,0.55);
+
+  --input-bg: rgba(255,255,255,0.10);
+  --input-border: rgba(255,255,255,0.22);
+
+  --danger-soft: rgba(239, 68, 68, 0.20);
+  --danger-text: #fecaca; /* light red */
+}
+
+/* Headings and normal text */
+h1, h2, h3, h4, h5, h6,
+p, span, li, div{
+  color: var(--text-normal);
+}
+
+/* Muted text (Bootstrap uses .text-secondary a lot) */
+.text-secondary, small, .small, .form-text, .helptext{
+  color: var(--text-muted) !important;
+}
+
+/* Links */
+a, .link-light{
+  color: rgba(255,255,255,0.92) !important;
+}
+a:hover, .link-light:hover{
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Form labels */
+label, .form-label{
+  color: var(--text-strong) !important;
+  font-weight: 600;
+}
+
+/* Inputs and textareas */
+input[type="text"], input[type="password"], input[type="email"], textarea, select{
+  width: 100%;
+  padding: .65rem .8rem;
+  border-radius: .8rem;
+
+  color: var(--text-strong) !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder{
+  color: var(--placeholder) !important;
+}
+
+/* Better focus */
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+textarea:focus, select:focus{
+  border-color: rgba(124,58,237,0.75) !important;
+  box-shadow: 0 0 0 .25rem rgba(124,58,237,0.18) !important;
+}
+
+/* Django form errors */
+ul.errorlist{
+  list-style: disc;
+  margin: 0 0 12px 0;
+  padding-left: 18px;
+}
+ul.errorlist li{
+  color: var(--danger-text) !important;
+}
+
+/* Alerts (Bootstrap) */
+.alert{
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.alert-danger{
+  background: var(--danger-soft) !important;
+  color: var(--danger-text) !important;
+}
+
+/* Playlist/list items: ensure text contrast */
+.list-group-item{
+  color: var(--text-strong) !important;
+}
+.list-group-item .text-secondary{
+  color: var(--text-muted) !important;
+}
+
+/* Badges */
+.badge{
+  border-radius: 999px;
+  padding: .45rem .7rem;
+}
+
+/* Make audio element readable against dark background */
+audio{
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+h1, h2, h3, h4, h5, h6{
+  color: var(--text-strong) !important;
+  letter-spacing: 0.2px;
+}
+
+h1{
+  font-weight: 800 !important;
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+}
+
+h2{
+  font-weight: 750 !important;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+}
+
+h3, h4, h5, h6{
+  font-weight: 700 !important;
+}
+
+/* Optional: make key titles look unique with a subtle gradient */
+.brand-title{
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}

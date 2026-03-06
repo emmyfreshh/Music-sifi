@@ -1,20 +1,54 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>Music-sifi</title>
-</head>
-<body>
-  <h1>Music-sifi — Emotion-aware music</h1>
+{% extends "base.html" %}
+{% block title %}Music-sifi{% endblock %}
 
-  <button id="voiceBtn">Voice Command</button>
-  <div>Status: <span id="status">Idle</span></div>
-  <div>Transcript: <span id="transcript">-</span></div>
-  <div>Emotion: <span id="emotion">-</span> (<span id="confidence">-</span>) source=<span id="mode">-</span></div>
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-5">
+    <div class="card bg-black border border-secondary">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Emotion-aware music</h1>
 
-  <audio id="player" controls></audio>
-  <ul id="playlist"></ul>
+        <button id="voiceBtn" class="btn btn-primary w-100">Voice Command</button>
 
-  <script type="module" src="/static/emotion/app.js"></script>
-</body>
-</html>
+        <div class="mt-3 small text-secondary">Status: <span id="status">Idle</span></div>
+        <div class="mt-2">Transcript: <span id="transcript">-</span></div>
+
+        <div class="mt-2">
+          Emotion:
+          <span class="badge text-bg-info" id="emotion">-</span>
+          <span class="text-secondary">(<span id="confidence">-</span>)</span>
+          <span class="text-secondary">source=<span id="mode">-</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-black border border-secondary mt-4">
+      <div class="card-body">
+        <h2 class="h6 mb-3">Player</h2>
+        <audio id="player" controls class="w-100"></audio>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button id="btnPrev" class="btn btn-outline-light btn-sm" type="button">Prev</button>
+          <button id="btnPlay" class="btn btn-outline-light btn-sm" type="button">Play</button>
+          <button id="btnPause" class="btn btn-outline-light btn-sm" type="button">Pause</button>
+          <button id="btnStop" class="btn btn-outline-light btn-sm" type="button">Stop</button>
+          <button id="btnNext" class="btn btn-outline-light btn-sm" type="button">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-7">
+    <div class="card bg-black border border-secondary">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Playlist</h2>
+        <ul id="playlist" class="list-group list-group-flush"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/static/emotion/app.js"></script>
+{% endblock %}

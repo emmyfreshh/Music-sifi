@@ -9,6 +9,15 @@ const modeEl = document.getElementById("mode");
 const player = document.getElementById("player");
 const playlistEl = document.getElementById("playlist");
 
+const btnPrev = document.getElementById("btnPrev");
+const btnNext = document.getElementById("btnNext");
+const btnPlay = document.getElementById("btnPlay");
+const btnPause = document.getElementById("btnPause");
+const btnStop = document.getElementById("btnStop");
+
+let tracksState = [];
+let currentIndex = -1;
+
 function startSpeechRecognition(){
   const has = ("SpeechRecognition" in window) || ("webkitSpeechRecognition" in window);
   if (!has) return null;
@@ -19,6 +28,71 @@ function startSpeechRecognition(){
   rec.maxAlternatives = 1;
   return rec;
 }
+
+function renderPlaylist(){
+  playlistEl.innerHTML = "";
+  tracksState.forEach((t, idx) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item bg-black text-light d-flex justify-content-between align-items-center border-secondary";
+
+    const left = document.createElement("div");
+    left.innerHTML = `<div class="fw-semibold">${t.title}</div><div class="small text-secondary">${t.artist || ""}</div>`;
+
+    const btn = document.createElement("button");
+    btn.className = "btn btn-outline-light btn-sm";
+    btn.textContent = "Play";
+    btn.onclick = () => playIndex(idx);
+
+    li.onclick = (e) => {
+      // clicking the li (not the button) also plays
+      if (e.target === btn) return;
+      playIndex(idx);
+    };
+
+    li.appendChild(left);
+    li.appendChild(btn);
+    playlistEl.appendChild(li);
+  });
+}
+
+function playIndex(idx){
+  if (!tracksState.length) return;
+  if (idx < 0) idx = 0;
+  if (idx >= tracksState.length) idx = tracksState.length - 1;
+
+  currentIndex = idx;
+  const t = tracksState[currentIndex];
+  player.src = t.url;
+  player.play();
+}
+
+function stopPlayback(){
+  player.pause();
+  player.currentTime = 0;
+}
+
+function nextTrack(){
+  if (!tracksState.length) return;
+  playIndex((currentIndex + 1) % tracksState.length);
+}
+
+function prevTrack(){
+  if (!tracksState.length) return;
+  const idx = (currentIndex - 1 + tracksState.length) % tracksState.length;
+  playIndex(idx);
+}
+
+btnPlay.onclick = () => {
+  if (player.src) player.play();
+  else if (tracksState.length) playIndex(0);
+};
+btnPause.onclick = () => player.pause();
+btnStop.onclick = () => stopPlayback();
+btnNext.onclick = () => nextTrack();
+btnPrev.onclick = () => prevTrack();
+
+// Auto-next when a track ends
+player.addEventListener("ended", () => nextTrack());
 
 voiceBtn.onclick = async () => {
   const rec = startSpeechRecognition();
@@ -35,7 +109,6 @@ voiceBtn.onclick = async () => {
 
   await new Promise((resolve) => {
     if (!rec){
-      // no Web Speech API: just record for ~4 seconds
       setTimeout(resolve, 4000);
       return;
     }
@@ -70,16 +143,12 @@ voiceBtn.onclick = async () => {
   confEl.textContent = data.confidence;
   modeEl.textContent = data.mode;
 
-  const tracks = data.tracks || [];
-  for (const t of tracks){
-    const li = document.createElement("li");
-    li.textContent = `${t.title}${t.artist ? " - " + t.artist : ""}`;
-    li.onclick = () => { player.src = t.url; player.play(); };
-    playlistEl.appendChild(li);
-  }
+  tracksState = data.tracks || [];
+  currentIndex = -1;
+  renderPlaylist();
 
-  if (tracks[0]){
-    player.src = tracks[0].url;
-    player.play();
+  // optional: auto-play first track if available
+  if (tracksState.length){
+    playIndex(0);
   }
 };
