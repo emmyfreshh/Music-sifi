@@ -1,0 +1,9 @@
+django>=4.2
+djangorestframework>=3.14
+transformers>=4.38
+torch
+torchaudio
+numpy
+soundfile
+gunicorn
+whitenoise
