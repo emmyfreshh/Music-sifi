@@ -5,3 +5,5 @@ torch
 torchaudio
 numpy
 soundfile
+gunicorn
+whitenoise
