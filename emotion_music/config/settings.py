@@ -25,9 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-li40gsd86s#t!@#@sa)iav3to%!6q9^k76dn8y1(*k$vam!$b!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://music-sifi.onrender.com',
+]
 
 
 # Application definition
@@ -57,9 +61,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://music-sifi.onrender.com',
-]
 
 TEMPLATES = [
     {
