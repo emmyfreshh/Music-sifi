@@ -1,12 +1,12 @@
-import logging
+import logging, os
+from pathlib import path
 
 logger = logging.getLogger(__name__)
 
 # NEW: use local fine-tuned model stored in emotion_music/models/...
-from pathlib import Path
-BASE_DIR = Path(__file__).resolve() # -> emotion_music/
-LOCAL_MODEL_DIR = BASE_DIR / "ravdess_wav2vec2_finetuned"   # Adjust if your model is in a different subdirectory
-WAV2VEC_MODEL_ID = str(LOCAL_MODEL_DIR)
+BASE_DIR = Path(__file__).resolve().parents[2]
+WAV2VEC_MODEL_ID = os.getenv("WAV2VEC_PATH", str(BASE_DIR / "ravdess_wav2vec2_finetuned"))
+WAV2VEC_DEVICE = int(os.getenv("WAV2VEC_DEVICE", "-1"))
 
 _PIPE = None
 _ID2LABEL = None
