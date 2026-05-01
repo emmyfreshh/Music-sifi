@@ -1,5 +1,5 @@
 import logging, os
-from pathlib import path
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
