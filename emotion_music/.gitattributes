@@ -1,0 +1,2 @@
+ravdess_wav2vec2_finetuned/** filter=lfs diff=lfs merge=lfs -text
+emotion_music/ravdess_wav2vec2_finetuned/* filter=lfs diff=lfs merge=lfs -text
