@@ -38,4 +38,12 @@ else:
         re_path(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
         }),
+
+
+    path("accounts/reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="registration/password_confirm.html"
+        ),
+        name="password_reset_confirm",
+    ),
     ]

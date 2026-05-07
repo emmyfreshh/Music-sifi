@@ -136,3 +136,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = "django-smtp-mailhog"
+EMAIL_PORT = 1025
